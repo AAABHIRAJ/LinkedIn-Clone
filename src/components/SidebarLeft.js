@@ -43,7 +43,7 @@ function SidebarLeft() {
                   <span className='tags'>#abhiraj</span>
                   <span className='tags'>#india</span>
                   <span className='tags'>#hindustan</span>
-                <span className='tags'>#bihar</span>
+                     <span className='tags'>#bihar</span>
                    
               </Tags>
           </SidebarBottom>
@@ -58,6 +58,11 @@ const Component = styled.div`
     display: flex;
     flex-direction: column;
     flex: 0.2;
+
+    @media(max-width:786px){
+        flex:1;
+        margin: 0 8vw;
+    } 
 `
 
 const Sidebar = styled.div`
@@ -136,7 +141,9 @@ const DescriptionOne = styled.div`
     cursor: pointer;
     font-size: 13px;
     color:gray;
+    padding:5px 0;
 
+   
     .count{
         color:#2C7BCA ;
         font-weight:600;
@@ -165,6 +172,10 @@ const SidebarBottom = styled.div`
         font-size: 13px;
     }
 
+    @media(max-width:786px){
+        display: none;
+        
+    } 
 
 `
 
@@ -177,6 +188,11 @@ const Tags = styled.div`
 
     .tags{
         color:gray;
-        padding: 5px 0;
+        padding: 5px 5px;
+        transition: all 250ms;
+        &:hover{
+            background-color: lightgray;
+            color:black;   
+        }
     }
 `

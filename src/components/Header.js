@@ -58,6 +58,7 @@ const Nav = styled.div`
     padding: 10px;
     background-color: white;
     justify-content: space-evenly;
+    z-index: 999;
 
 `
 
@@ -65,7 +66,9 @@ const NavLeft = styled.div`
 
     display: flex;
     align-items: center;
-
+    img{
+        cursor: pointer;
+    }
 
 `
 
