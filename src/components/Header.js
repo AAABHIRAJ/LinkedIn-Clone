@@ -1,8 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavOption from './NavOption';
+import { getAuth, signOut } from "firebase/auth";
+import { logout, selectUserPhoto } from "../features/userSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const photoURL = useSelector(selectUserPhoto)
+
+
+    const signoutLinkedin = () => {
+        const auth = getAuth();
+        signOut(auth)
+            .then(() => {
+                dispatch(logout({
+                    name: null,
+                    email: null,
+                    photo: null,
+                }))
+            });
+        
+        navigate("/");
+    }
   return (
     <Nav>
 
@@ -15,7 +37,7 @@ function Header() {
         </NavLeft>
           
         <NavRight>
-            <NavOptions>
+            <NavOptions >
                   <NavOption
                       imgURL="images/nav-home.svg"
                       title="Home"
@@ -36,10 +58,14 @@ function Header() {
                       imgURL="images/nav-notifications.svg"
                       title="Notifications"
                   />
+                  <a onClick={signoutLinkedin}>
                   <NavOption
-                      profileURL="https://media-exp1.licdn.com/dms/image/C5103AQHxRjbT9-tNEQ/profile-displayphoto-shrink_100_100/0/1534583386446?e=1666224000&v=beta&t=Pr6sFXtWAPReNegKza7VcRU8Pc91HkttRgpPOXsXoHo"
-                      title="Me"
+                          profileURL={photoURL}
+                          title="Me"
+                          alt="Logout"
                   />
+                  </a>
+                  
                   
             </NavOptions>
         </NavRight>

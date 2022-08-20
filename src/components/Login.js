@@ -1,7 +1,32 @@
 import React from 'react';
 import styled from "styled-components";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { login } from '../features/userSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const signIn = () => {
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        signInWithPopup(auth, provider)
+            .then((authUser) => {
+                const user = authUser.user;
+                console.log("Authuser>>>>", authUser);
+                dispatch(login({
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL
+                }))
+            })
+            navigate("/home");
+        
+    }
   return (
     <Component>
         <Nav>
@@ -11,7 +36,7 @@ function Login() {
 
               <SignUp>
                   <span>Join now</span>
-                  <a href=''>Sign in</a>
+                  <a onClick={signIn}>Sign in</a>
               </SignUp>
           </Nav>
           
@@ -27,7 +52,7 @@ function Login() {
                 <img 
                     src='images/google.svg'
                 />
-                <span>Sign in with Google</span>
+                <span onClick={signIn}>Sign in with Google</span>
          </Google>
     </Component>
   )

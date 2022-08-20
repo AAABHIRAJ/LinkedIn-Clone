@@ -1,12 +1,17 @@
 import { Avatar } from '@mui/material';
-import React from 'react';
+import React, {forwardRef} from 'react';
 import styled from 'styled-components';
+import { useSelector } from "react-redux";
+import { selectUserPhoto } from '../features/userSlice';
 
-function Post({name, details, content, image}) {
+const Post = forwardRef(({ name, details, content, image }, ref)  => {
+    const photoURL = useSelector(selectUserPhoto);
+
+    
   return (
-    <Component>
+    <Component ref={ref}>
         <Header>
-              <Avatar src="" />
+              <Avatar src={photoURL} />
               <Details>
                   <span className='name'>{name}</span>
                   <span className='bottom'>{details}</span>
@@ -57,7 +62,7 @@ function Post({name, details, content, image}) {
           </Buttons>
     </Component>
   )
-}
+})
 
 export default Post;
 

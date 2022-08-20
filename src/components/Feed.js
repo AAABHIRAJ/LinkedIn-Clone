@@ -5,18 +5,24 @@ import Post from './Post';
 import { collection, getDocs } from 'firebase/firestore';
 import db from "../firebase";
 import { addDoc,query, orderBy, serverTimestamp } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
+import { selectUserName, selectUserEmail, selectUserPhoto } from "../features/userSlice";
+import FlipMove from 'react-flip-move';
 
 function Feed() {
     const [input, setInput] = useState("");
     const [posts, setPosts] = useState([]);
+    const imageURL = useSelector(selectUserPhoto);
+    const email = useSelector(selectUserEmail);
+    const name = useSelector(selectUserName);
 
     const sendPost = (e) => {
         e.preventDefault();
         const postsref = collection(db, "posts");
         addDoc(postsref, {
             image: "",
-            name: "Shishu Kumar",
-            detail: "Hello Dear",
+            name: {name},
+            detail: {email},
             content: { input },
             timestamp: serverTimestamp(),
         });
@@ -40,10 +46,9 @@ function Feed() {
                 )
             })
 
-    }, [posts]);
-    console.log(posts);
+    }, [input]);
 
-    
+    console.log(posts);
     
     return (
       <Component>
@@ -69,21 +74,29 @@ function Feed() {
                     </Functions>
                 </CreatePostBottom>
             </CreatePost>
-            <Post
+            
+            <FlipMove>
+                {posts?.map(({id, data:{name, detail,image, content }}) => {
+                    return (<Post
+                    image={image}
+                    key={id}
+                    name={name.name}
+                    details={detail.email}
+                    content={content.input}
+                    />)
+                    
+
+                })}
+                <Post
                 image="https://www.behindwoods.com/tamil-actress/disha-patani/disha-patani-stills-photos-pictures-219.jpg"
                 name="Abhiraj Kumar"
                 details="Hi dear"
                 content="SVG elements should be scaled for a 24x24px viewport so that the resulting icon can be used as is, or included as a child for other MUI components that use icons. This can be customized with the viewBox attribute. To inherit the viewBox value from the original image, the inheritViewBox prop can be used."
             />
-            {posts?.map(({id, data:{name, detail,image, content }}) => {
-                return (<Post
-                image={image}
-                key={id}
-                name={name}
-                details={detail}
-                content={content.input}
-            />)
-            })}
+            </FlipMove>
+
+
+            
             
       </Component>
       
@@ -113,6 +126,9 @@ const CreatePost = styled.div`
     height: fit-content;
     border-radius: 5px;
     max-width: 700px;
+    @media(max-width:786px){
+        margin-left: 20px;
+    } 
 
 `
 

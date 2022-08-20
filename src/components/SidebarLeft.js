@@ -1,7 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
-
+import { useSelector } from "react-redux";
+import { selectUserEmail, selectUserName, selectUserPhoto } from "../features/userSlice";
 function SidebarLeft() {
+    const photoURL = useSelector(selectUserPhoto);
+    const email = useSelector(selectUserEmail);
+    const name = useSelector(selectUserName);
+
     return (
       <Component>
             <Sidebar>
@@ -15,10 +20,10 @@ function SidebarLeft() {
                   
                 <img
                     className='profile__pic'
-                    src='https://media-exp1.licdn.com/dms/image/C5103AQHxRjbT9-tNEQ/profile-displayphoto-shrink_100_100/0/1534583386446?e=1666224000&v=beta&t=Pr6sFXtWAPReNegKza7VcRU8Pc91HkttRgpPOXsXoHo' 
+                    src={photoURL}
                 />
-                <h2>Abhiraj Kumar</h2>
-                <h4>kumarshishu99@gmail.com</h4>
+                <h2>{name}</h2>
+                <h4>{email}</h4>
               </Profile>
               <Description>
                   <DescriptionOne>
@@ -58,6 +63,7 @@ const Component = styled.div`
     display: flex;
     flex-direction: column;
     flex: 0.2;
+   
 
     @media(max-width:786px){
         flex:1;
@@ -67,6 +73,7 @@ const Component = styled.div`
 
 const Sidebar = styled.div`
 margin-top: 105px;
+
 display: flex;
 flex-direction: column;
 margin-left: 15px;
@@ -160,7 +167,8 @@ const DescriptionTwo = styled(DescriptionOne)`
 
 const SidebarBottom = styled.div`
     display: flex;
-    position:sticky;
+    position: sticky;
+    top:80px;
     flex-direction: column;
     margin-left:15px;
     margin-top:20px;
